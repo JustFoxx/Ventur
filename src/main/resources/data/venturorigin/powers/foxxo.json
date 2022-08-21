@@ -33,6 +33,10 @@
     },
     "glowberry":{
         "type":"apoli:modify_food",
+        "item_condition": {
+            "type":"origins:ingredient",
+            "ingredient":{"item": "minecraft:glow_berries"}
+        },
         "entity_action": {
             "type":"origins:apply_effect",
             "effects": [
