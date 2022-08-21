@@ -1,38 +1,38 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "venturorigin",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Ventur Origin",
+  "description": "",
   "authors": [
-    "Me!"
+    "JustFoxx"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/JustFoxx/Ventur",
+    "sources": "https://github.com/JustFoxx/Ventur"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "LGPL-v3.0",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "io.github.justfoxx.venturorigin.Main"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "venturorigin.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "~1.19",
-    "java": ">=17"
+    "minecraft": ">=1.19",
+    "java": ">=17",
+    "origins": ">=1.6.2"
   },
   "suggests": {
-    "another-mod": "*"
+    "nochatreports": "*"
   }
 }

@@ -1,0 +1,18 @@
+{
+	"powers": [
+		"venturorigin:gentle",
+		"venturorigin:paws",
+		"venturorigin:squirrel",
+		"venturorigin:smallbody",
+		"venturorigin:foxxo",
+		"venturorigin:spirit",
+		"venturorigin:green",
+		"venturorigin:wet",
+		"venturorigin:airattack"
+	],
+	"icon": "minecraft:totem_of_undying",
+	"order": 10,
+	"impact": 2,
+	"name": "Ventur",
+	"description": "A cute green-furred spirit fox."
+}
