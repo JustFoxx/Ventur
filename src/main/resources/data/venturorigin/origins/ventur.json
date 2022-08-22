@@ -12,7 +12,7 @@
 		"venturorigin:flower"
 	],
 	"icon": "minecraft:totem_of_undying",
-	"order": 10,
+	"order": 100,
 	"impact": 2,
 	"name": "Ventur",
 	"description": "A cute green-furred spirit fox."
