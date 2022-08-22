@@ -7,9 +7,12 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ActiveTargetGoal.class)
 public class ActiveTargetGoalMixin extends TrackTargetGoal {
@@ -17,18 +20,12 @@ public class ActiveTargetGoalMixin extends TrackTargetGoal {
         super(mob, checkVisibility);
     }
 
-    @Redirect(method = "start", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/entity/mob/MobEntity;setTarget(Lnet/minecraft/entity/LivingEntity;)V"
-    ))
-    public void canTarget(MobEntity instance, LivingEntity target) {
+    @Inject(method = "start", at = @At("HEAD"))
+    public void canTarget(CallbackInfo ci) {
         if(
-                !(target instanceof PlayerEntity
-                &&Powers.NO_MOB_ATTACK.isActive(target))
-        ) {
-            instance.setTarget(target);
-            super.start();
-        }
+                target instanceof PlayerEntity
+                &&Powers.NO_MOB_ATTACK.isActive(target)
+        ) return;
     }
 
     @Override
