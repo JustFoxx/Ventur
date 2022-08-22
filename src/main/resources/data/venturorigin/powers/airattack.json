@@ -1,6 +1,6 @@
 {
   "type": "origins:active_self",
-  "cooldown": 80,
+  "cooldown": 200,
   "hud_render": {
     "sprite_location": "origins:textures/gui/community/huang/resource_bar_01.png",
     "bar_index": 8
