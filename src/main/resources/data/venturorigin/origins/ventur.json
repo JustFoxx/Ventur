@@ -8,7 +8,8 @@
 		"venturorigin:spirit",
 		"venturorigin:green",
 		"venturorigin:wet",
-		"venturorigin:airattack"
+		"venturorigin:airattack",
+		"venturorigin:flower"
 	],
 	"icon": "minecraft:totem_of_undying",
 	"order": 10,
