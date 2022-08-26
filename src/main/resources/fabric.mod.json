@@ -30,7 +30,8 @@
     "fabric": "*",
     "minecraft": ">=1.19",
     "java": ">=17",
-    "origins": ">=1.6.2"
+    "origins": ">=1.6.2",
+    "pehkui": "*"
   },
   "suggests": {
     "nochatreports": "*"
