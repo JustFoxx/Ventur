@@ -51,7 +51,13 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
 	implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
+	modImplementation("com.github.virtuoel:pehkui:${pehkui_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
+
+	//modLocalRuntime files(fileTree(include: ['*.jar'], dir: 'mods'))
+
 
 	include("com.github.LlamaLad7:MixinExtras:0.0.12")
 	// Uncomment the following line to enable the deprecated Fabric API modules. 

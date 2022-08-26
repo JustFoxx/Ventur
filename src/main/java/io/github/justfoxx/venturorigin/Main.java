@@ -8,6 +8,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BoneMealItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +26,7 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		MixinExtrasBootstrap.init();
+		Powers.register();
 		LOGGER.info("Mod has been loaded.");
 	}
 }

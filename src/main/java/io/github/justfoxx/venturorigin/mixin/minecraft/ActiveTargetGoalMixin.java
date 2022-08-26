@@ -1,6 +1,8 @@
 package io.github.justfoxx.venturorigin.mixin.minecraft;
 
 import io.github.justfoxx.venturorigin.Powers;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
