@@ -1,6 +1,7 @@
 package io.github.justfoxx.venturorigin;
 
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import io.github.apace100.apoli.power.Power;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.block.BlockState;
@@ -25,6 +26,7 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		MixinExtrasBootstrap.init();
+		Powers.register();
 		LOGGER.info("Mod has been loaded.");
 	}
 }
