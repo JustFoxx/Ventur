@@ -1,0 +1,12 @@
+{
+    "replace": false,
+    "values": [
+        "betterend:blossom_berry",
+        "betterend:shadow_berry_raw",
+        "betterend:shadow_berry_cooked",
+        {
+            "id": "betterend:ender_berry",
+            "required": false
+        }
+    ]
+}

@@ -1,6 +1,14 @@
 {
     "values": [
         "minecraft:sweet_berries",
-        "minecraft:glow_berries"
+        "minecraft:glow_berries",
+        {
+            "id": "#betterend:berry",
+            "required": false
+        },
+        {
+            "id": "#moreberries:berry",
+            "required": false
+        }
     ]
 }

@@ -2,6 +2,15 @@
     "values": [
         "minecraft:azalea",
         "minecraft:flowering_azalea",
-        "#saplings"
+        "#minecraft:saplings",
+        "#minecraft:tall_flowers",
+        {
+            "id": "#c:bushes",
+            "required": false
+        },
+        {
+            "id": "#c:saplings",
+            "required": false
+        }
     ]
 }

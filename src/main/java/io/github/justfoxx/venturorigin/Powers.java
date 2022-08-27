@@ -5,6 +5,7 @@ import io.github.apace100.apoli.power.PowerTypeReference;
 import io.github.apace100.apoli.power.factory.PowerFactory;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.justfoxx.venturorigin.powers.SizeChange;
+import io.github.justfoxx.venturorigin.powers.Sounds;
 import net.minecraft.util.Identifier;
 
 import static io.github.justfoxx.venturorigin.Main.ID;
@@ -22,5 +23,6 @@ public class Powers {
 
     public static void register() {
         Utils.register(Utils.createPower("size_change", data -> SizeChange::new));
+        Utils.register(Utils.createPower("sounds", data -> Sounds::new));
     }
 }

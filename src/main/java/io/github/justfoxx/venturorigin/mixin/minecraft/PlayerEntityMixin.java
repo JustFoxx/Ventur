@@ -1,50 +1,95 @@
 package io.github.justfoxx.venturorigin.mixin.minecraft;
 
-import com.mojang.authlib.GameProfile;
-import io.github.justfoxx.venturorigin.Powers;
-import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
+import io.github.apace100.apoli.component.PowerHolderComponent;
+import io.github.justfoxx.venturorigin.Main;
+import io.github.justfoxx.venturorigin.powers.Sounds;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.encryption.PlayerPublicKey;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
-import org.checkerframework.checker.units.qual.A;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ServerPlayerEntity.class)
-public abstract class PlayerEntityMixin extends PlayerEntity {
+@Mixin(PlayerEntity.class)
+public abstract class PlayerEntityMixin extends LivingEntity {
 
-    @Shadow public abstract ItemEntity dropItem(ItemStack stack, boolean throwRandomly, boolean retainOwnership);
-
-    public PlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey) {
-        super(world, pos, yaw, gameProfile, publicKey);
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
     }
 
-    private ItemStack selectedOffHandItemDrop() {
-        ItemStack itemStack = getOffHandStack();
-        return itemStack.isEmpty() ? ItemStack.EMPTY : this.getInventory().removeStack(this.getInventory().selectedSlot, itemStack.getCount());
-    }
-
-    @Inject(method = "playerTick", at = @At("HEAD"))
-    private void onTick(CallbackInfo ci) {
-        if(Powers.NO_BLOCK_OFFHAND.isActive(this)) {
-            if(getOffHandStack() != ItemStack.EMPTY) {
-                dropItem(getOffHandStack(), true);
-                setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+    @Inject(method = "getDeathSound", at = @At("TAIL"), cancellable = true)
+    public void deathSound(CallbackInfoReturnable<SoundEvent> cir) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                cir.setReturnValue(sounds.deathSound());
+                return;
             }
         }
     }
 
-//    @Inject(method = "wakeUp", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;wakeUp(ZZ)V"))
-//    private void onWakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo info) {
-//        EntitySleepEvents.STOP_SLEEPING.invoker().onStopSleeping((ServerPlayerEntity)(Object) this, this.getBlockPos());
-//    }
+    @Inject(method = "getFallSounds", at = @At("TAIL"), cancellable = true)
+    public void fallSound(CallbackInfoReturnable<FallSounds> cir) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                cir.setReturnValue(sounds.fallSound());
+                return;
+            }
+        }
+    }
+
+    @Override
+    public SoundEvent getEatSound(ItemStack stack) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                return sounds.eatSound();
+            }
+        }
+        return stack.getEatSound();
+    }
+
+    @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
+    public void hurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                cir.setReturnValue(sounds.hurtSound());
+                return;
+            }
+        }
+    }
+
+    @Redirect(method = "eatFood", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
+    ))
+    public void eatSound(World instance, PlayerEntity player, double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            Main.LOGGER.info(this.toString());
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                world.playSound(player, x, y, z, sounds.eatSound(), category, volume, pitch);
+            }
+        } else {
+            world.playSound(player, x, y, z, sound, category, volume, pitch);
+        }
+    }
+
+    @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("TAIL"))
+    public void dropSound(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
+        if(!stack.isEmpty()) {
+            Main.LOGGER.info(stack.toString());
+            if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+                for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                    world.playSound(null,this.getX(),this.getY(),this.getZ(),sounds.dropSound(),SoundCategory.PLAYERS,1.0F,1.0F);
+                }
+            }
+        }
+    }
 }

@@ -8,14 +8,13 @@ import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 
-public class SizeChange extends Power {
+public class SizeChange extends BasePower {
+    public SizeChange(PowerType<?> type, LivingEntity entity) {
+        super(type, entity);
+    }
     public final float baseScale = 0.3F;
     public final float reachScale = 2.0F;
 
-    public SizeChange(PowerType<?> type, LivingEntity entity) {
-        super(type, entity);
-        setTicking(false);
-    }
 
     @Override
     public void tick() {
