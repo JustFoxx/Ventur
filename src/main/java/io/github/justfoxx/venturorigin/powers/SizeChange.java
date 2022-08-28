@@ -12,7 +12,7 @@ public class SizeChange extends BasePower {
     public SizeChange(PowerType<?> type, LivingEntity entity) {
         super(type, entity);
     }
-    public final float baseScale = 0.3F;
+    public final float baseScale = 0.4F;
     public final float reachScale = 2.0F;
 
 

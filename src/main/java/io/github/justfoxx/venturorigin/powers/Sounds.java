@@ -54,7 +54,7 @@ public class Sounds extends BasePower {
         this.ambientSoundChance = -this.getMinAmbientSoundDelay();
     }
     private int getMinAmbientSoundDelay() {
-        return 80;
+        return 100;
     }
 
     @Override
@@ -62,8 +62,6 @@ public class Sounds extends BasePower {
         if(isActive() && entity != null && entity instanceof PlayerEntity) {
             int random = new Random().nextInt(1000);
             if (entity.isAlive() && random < this.ambientSoundChance++) {
-                Main.LOGGER.info(random +" random");
-                Main.LOGGER.info(this.ambientSoundChance +" chance");
                 this.resetSoundDelay();
                 SoundEvent sound;
                 if(entity.isSleeping()) {

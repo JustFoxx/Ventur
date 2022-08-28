@@ -21,19 +21,6 @@
         },
         {
           "type": "origins:tame"
-        },
-        {
-          "type": "origins:target_action",
-          "action": {
-            "type": "apoli:apply_effect",
-            "effect": {
-              "amplifier": 1,
-              "duration": 20,
-              "effect": "minecraft:luck",
-              "is_ambient": false,
-              "show_icon": false
-            }
-          }
         }
       ]
     },

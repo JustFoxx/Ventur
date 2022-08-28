@@ -14,6 +14,9 @@
     "sound": {
         "type": "venturorigin:sounds"
     },
+    "lucky": {
+        "type": "venturorigin:riding_effect"
+    },
     "name": "Spirit",
     "description": "Friendly creature"
 }

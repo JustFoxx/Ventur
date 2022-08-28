@@ -72,7 +72,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     ))
     public void eatSound(World instance, PlayerEntity player, double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch) {
         if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            Main.LOGGER.info(this.toString());
             for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
                 world.playSound(player, x, y, z, sounds.eatSound(), category, volume, pitch);
             }
