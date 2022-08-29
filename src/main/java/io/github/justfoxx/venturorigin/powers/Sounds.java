@@ -54,7 +54,7 @@ public class Sounds extends BasePower {
         this.ambientSoundChance = -this.getMinAmbientSoundDelay();
     }
     private int getMinAmbientSoundDelay() {
-        return 100;
+        return 60;
     }
 
     @Override

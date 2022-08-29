@@ -1,35 +1,5 @@
 {
-    "type":"origins:active_self",
-    "entity_action": {
-        "type":"origins:block_action_at",
-        "block_action": {
-            "type":"apoli:and",
-            "actions": [
-                {
-                    "type":"origins:offset",
-                    "y": -1,
-                    "x": 0,
-                    "z": 0,
-                    "action": {
-                        "type":"origins:bonemeal",
-                        "effects": true
-                    }
-                },
-                {
-                    "type":"origins:bonemeal",
-                    "effects": true
-                }
-            ]
-        }
-    },
-    "key": {
-        "key": "key.origins.secondary_active"
-    },
-    "hud_render": {
-        "sprite_location":"origins:textures/gui/community/huang/resource_bar_02.png",
-        "bar_index": 21
-    },
-    "cooldown": 20,
+    "type":"venturorigin:overgrown",
     "name": "Overgrown",
-    "description": "Ability to control the nature"
+    "description": "Nature growing around you"
 }

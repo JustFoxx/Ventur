@@ -83,7 +83,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("TAIL"))
     public void dropSound(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if(!stack.isEmpty()) {
-            Main.LOGGER.info(stack.toString());
             if(PowerHolderComponent.hasPower(this, Sounds.class)) {
                 for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
                     world.playSound(null,this.getX(),this.getY(),this.getZ(),sounds.dropSound(),SoundCategory.PLAYERS,1.0F,1.0F);

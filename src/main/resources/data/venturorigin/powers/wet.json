@@ -6,7 +6,7 @@
       "bar_index": 16,
       "sprite_location":"origins:textures/gui/community/huang/resource_bar_02.png"
     },
-    "max": 1,
+    "max": 800,
     "min": 0
   },
   "slow": {
@@ -20,7 +20,7 @@
     "condition": {
       "type": "origins:resource",
       "compare_to": 1,
-      "comparison": "==",
+      "comparison": ">=",
       "resource": "venturorigin:wet_wet"
     }
   },
@@ -33,19 +33,19 @@
     "condition": {
       "type": "origins:resource",
       "compare_to": 1,
-      "comparison": "==",
+      "comparison": ">=",
       "resource": "venturorigin:wet_wet"
     }
   },
   "aftertime": {
     "type": "origins:action_over_time",
-    "interval": 800,
+    "interval": 2,
     "condition": {
       "type": "origins:and",
       "conditions": [
         {
           "type": "origins:resource",
-          "comparison": "==",
+          "comparison": ">=",
           "compare_to": 1,
           "resource": "venturorigin:wet_wet"
         },
@@ -72,8 +72,8 @@
     },
     "entity_action": {
       "type": "origins:change_resource",
-      "change": 0,
-      "operation": "set",
+      "change": -1,
+      "operation": "add",
       "resource": "venturorigin:wet_wet"
     }
   },
@@ -101,9 +101,9 @@
       "type": "origins:change_resource",
       "resource": "venturorigin:wet_wet",
       "change": 1,
-      "operation": "set"
+      "operation": "add"
     },
-    "interval": 10
+    "interval": 1
   },
   "wet_particle":{
     "type":"origins:action_over_time",
@@ -116,7 +116,7 @@
       "type":"origins:resource",
       "resource": "venturorigin:wet_wet",
       "compare_to": 1,
-      "comparison": "=="
+      "comparison": ">="
     }
   },
   "name": "Wet",

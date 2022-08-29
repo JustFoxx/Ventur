@@ -9,7 +9,8 @@
 		"venturorigin:green",
 		"venturorigin:wet",
 		"venturorigin:airattack",
-		"venturorigin:flower"
+		"venturorigin:flower",
+		"venturorigin:overgrown"
 	],
 	"icon": "minecraft:totem_of_undying",
 	"order": 100,

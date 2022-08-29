@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "id": "venturorigin",
   "version": "${version}",
-
+  "icon": "assets/icon.png",
   "name": "Ventur Origin",
-  "description": "",
+  "description": "A cute green-furred addon for origins mod ",
   "authors": [
     "JustFoxx"
   ],
@@ -13,7 +13,7 @@
     "sources": "https://github.com/JustFoxx/Ventur"
   },
 
-  "license": "LGPL-v3.0",
+  "license": "LGPL-3.0-only",
 
   "environment": "*",
   "entrypoints": {
