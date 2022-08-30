@@ -1,13 +1,12 @@
 package io.github.justfoxx.venturorigin.mixin.minecraft;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.justfoxx.venturorigin.Main;
 import io.github.justfoxx.venturorigin.powers.Sounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -16,6 +15,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -78,6 +78,19 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         } else {
             world.playSound(player, x, y, z, sound, category, volume, pitch);
         }
+    }
+
+    @ModifyArg(method = "eatFood", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
+    ))
+    public SoundEvent eatSound(SoundEvent sound) {
+        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
+            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
+                return sounds.eatSound();
+            }
+        }
+        return sound;
     }
 
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("TAIL"))
