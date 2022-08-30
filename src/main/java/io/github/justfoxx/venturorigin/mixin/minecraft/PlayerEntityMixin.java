@@ -66,20 +66,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
     }
 
-    @Redirect(method = "eatFood", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
-    ))
-    public void eatSound(World instance, PlayerEntity player, double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                world.playSound(player, x, y, z, sounds.eatSound(), category, volume, pitch);
-            }
-        } else {
-            world.playSound(player, x, y, z, sound, category, volume, pitch);
-        }
-    }
-
     @ModifyArg(method = "eatFood", at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
