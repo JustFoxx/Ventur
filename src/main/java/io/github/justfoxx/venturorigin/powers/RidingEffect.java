@@ -1,6 +1,8 @@
 package io.github.justfoxx.venturorigin.powers;
 
 import io.github.apace100.apoli.power.PowerType;
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,10 +19,10 @@ public class RidingEffect extends BasePower{
     @Override
     public void tick() {
         if(isActive()) {
-            LivingEntity vehicle = (LivingEntity) entity.getVehicle();
+            Entity vehicle = entity.getVehicle();
             if(vehicle instanceof PlayerEntity) {
                 StatusEffectInstance effect = new StatusEffectInstance(StatusEffects.LUCK, 20, 1, true,true, false);
-                vehicle.addStatusEffect(effect);
+                ((LivingEntity)vehicle).addStatusEffect(effect);
             }
         }
     }
