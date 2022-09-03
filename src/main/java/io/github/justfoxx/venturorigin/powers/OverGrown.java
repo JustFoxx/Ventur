@@ -52,7 +52,7 @@ public class OverGrown extends BasePower {
 
     private void function() {
         BlockPos blockPosOfEntity = entity.getBlockPos();
-        for (BlockPos blockPos : BlockPos.iterateRandomly(entity.world.getRandom(), 10, blockPosOfEntity, radius)) {
+        for (BlockPos blockPos : BlockPos.iterateRandomly(entity.world.getRandom(), 30, blockPosOfEntity, radius)) {
             BlockState blockState = entity.world.getBlockState(blockPos);
             if(blockPos.getY() != blockPosOfEntity.getY()) {
                 continue;
