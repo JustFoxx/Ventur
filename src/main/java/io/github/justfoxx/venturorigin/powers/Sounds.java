@@ -1,77 +1,68 @@
 package io.github.justfoxx.venturorigin.powers;
 
-import io.github.apace100.apoli.Apoli;
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.apace100.apoli.power.Power;
-import io.github.apace100.apoli.power.PowerType;
-import io.github.justfoxx.venturorigin.Main;
+import io.github.justfoxx.venturorigin.interfaces.IESounding;
+import io.github.justfoxx.venturorigin.interfaces.IETicking;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.command.PlaySoundCommand;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 
 import java.util.Random;
 
-public class Sounds extends BasePower {
-    public Sounds(PowerType<?> type, LivingEntity entity) {
-        super(type, entity);
-        setTicking(false);
+public class Sounds extends PowerWrapper implements IESounding, IETicking {
+    private int ambientSoundChance;
+    private final int minAmbientSoundDelay = 60;
+
+    public Sounds(Identifier identifier) {
+        super(identifier);
     }
 
+    @Override
     public SoundEvent deathSound() {
         return SoundEvents.ENTITY_ALLAY_DEATH;
     }
 
+    @Override
     public LivingEntity.FallSounds fallSound() {
         return new LivingEntity.FallSounds(SoundEvents.ENTITY_GENERIC_SMALL_FALL, SoundEvents.ENTITY_GENERIC_SMALL_FALL);
     }
 
-    public SoundEvent ambientSound() {
-        return SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM;
-    }
-
+    @Override
     public SoundEvent hurtSound() {
-        return SoundEvents.ENTITY_ALLAY_HURT;
+        return SoundEvents.ENTITY_FOX_HURT;
     }
 
+    @Override
     public SoundEvent eatSound() {
         return SoundEvents.ENTITY_FOX_EAT;
     }
 
+    @Override
     public SoundEvent dropSound() {
         return SoundEvents.ENTITY_FOX_SPIT;
     }
 
+    @Override
     public SoundEvent sleepSound() {
         return SoundEvents.ENTITY_FOX_SLEEP;
     }
-
-    private int ambientSoundChance;
     private void resetSoundDelay() {
-        this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+        this.ambientSoundChance = -minAmbientSoundDelay;
     }
-    private int getMinAmbientSoundDelay() {
-        return 60;
-    }
+
 
     @Override
-    public void tick() {
-        if(isActive() && entity != null && entity instanceof PlayerEntity) {
-            int random = new Random().nextInt(1000);
-            if (entity.isAlive() && random < this.ambientSoundChance++) {
-                this.resetSoundDelay();
-                SoundEvent sound;
-                if(entity.isSleeping()) {
-                    sound = sleepSound();
-                } else {
-                    sound = ambientSound();
-                }
-                entity.world.playSound(null,entity.getX(),entity.getY(),entity.getZ(),sound, SoundCategory.PLAYERS,1.0F,1.0F);
-            }
-        }
+    public void tick(LivingEntity livingEntity) {
+        if (!livingEntity.isAlive()) return;
+
+        int random = new Random().nextInt(1000);
+
+        if (random > this.ambientSoundChance++) return;
+        if (!livingEntity.isSleeping()) return;
+
+        livingEntity.world.playSound(null,livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),sleepSound(), SoundCategory.PLAYERS,1.0F,1.0F);
+        resetSoundDelay();
     }
 }
 

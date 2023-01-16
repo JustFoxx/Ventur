@@ -4,9 +4,10 @@
   "package": "io.github.justfoxx.venturorigin.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "minecraft.ActiveTargetGoalMixin",
-    "minecraft.PlayerEntityMixin",
-    "minecraft.ServerPlayerEntityMixin"
+    "ActiveTargetGoalMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -12,10 +12,10 @@
         }
     },
     "sound": {
-        "type": "venturorigin:sounds"
+        "type": "origins:simple"
     },
     "lucky": {
-        "type": "venturorigin:riding_effect"
+        "type": "origins:simple"
     },
     "name": "Spirit",
     "description": "Friendly creature"

@@ -1,45 +1,32 @@
 package io.github.justfoxx.venturorigin.powers;
 
-import io.github.apace100.apoli.power.Power;
-import io.github.apace100.apoli.power.PowerType;
+import io.github.justfoxx.venturorigin.interfaces.IETicking;
 import net.minecraft.entity.LivingEntity;
-import virtuoel.pehkui.Pehkui;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
-import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 
-public class SizeChange extends BasePower {
-    public SizeChange(PowerType<?> type, LivingEntity entity) {
-        super(type, entity);
-    }
-    public final float baseScale = 0.4F;
+public class SizeChange extends PowerWrapper implements IETicking {
+    public final float baseScale = 0.6F;
     public final float reachScale = 2.0F;
 
-
-    @Override
-    public void tick() {
-        final ScaleData baseData = ScaleTypes.BASE.getScaleData(entity);
-        final ScaleData reachData = ScaleTypes.REACH.getScaleData(entity);
-        if(isActive()) {
-            if(baseData.getScale() != baseScale) {
-                baseData.setTargetScale(baseScale);
-            } else if(reachData.getScale() != reachScale) {
-                reachData.setTargetScale(reachScale);
-            }
-        } else if(!isActive()){
-            if(baseData.getScale() != 1) {
-                baseData.setTargetScale(1);
-            } else if(reachData.getScale() != 1) {
-                reachData.setTargetScale(1);
-            }
-        }
+    public SizeChange(Identifier identifier) {
+        super(identifier);
     }
 
     @Override
-    public void onLost() {
-        final ScaleData baseData = ScaleTypes.BASE.getScaleData(entity);
-        final ScaleData reachData = ScaleTypes.REACH.getScaleData(entity);
-        baseData.setTargetScale(1);
-        reachData.setTargetScale(1);
+    public void tick(LivingEntity livingEntity) {
+        final ScaleData baseData = ScaleTypes.BASE.getScaleData(livingEntity);
+        final ScaleData reachData = ScaleTypes.REACH.getScaleData(livingEntity);
+
+        if(!isActive(livingEntity)) {
+            if(baseData.getScale() != 1) baseData.setTargetScale(1);
+            if(reachData.getScale() != 1) reachData.setTargetScale(1);
+
+            return;
+        }
+
+        if(baseData.getScale() != baseScale) baseData.setTargetScale(baseScale);
+        if(reachData.getScale() != reachScale) reachData.setTargetScale(reachScale);
     }
 }

@@ -9,7 +9,7 @@
     }
   },
   "size": {
-    "type": "venturorigin:size_change"
+    "type": "origins:simple"
   },
   "ride": {
     "type": "origins:action_on_entity_use",

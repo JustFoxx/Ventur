@@ -28,9 +28,6 @@ repositories {
 		}
 	}
 	maven {
-		url "https://jitpack.io"
-	}
-	maven {
 		url "https://maven.shedaniel.me/"
 	}
 	maven {
@@ -39,6 +36,7 @@ repositories {
 	maven {
 		url 'https://jitpack.io'
 	}
+	maven { url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -49,17 +47,18 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
-	implementation("com.github.LlamaLad7:MixinExtras:0.1.0-rc4")
+	modImplementation "com.github.eggohito:origins-fabric:${project.origins_version}"
+	implementation("com.github.LlamaLad7:MixinExtras:0.1.1")
 	modImplementation("com.github.virtuoel:pehkui:${pehkui_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.0-rc4");
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")
+	modImplementation "maven.modrinth:ivycore:${project.ivycore_version}"
 
 	//modLocalRuntime files(fileTree(include: ['*.jar'], dir: 'mods'))
 
 
-	include("com.github.LlamaLad7:MixinExtras:0.1.0-rc4")
+	include("com.github.LlamaLad7:MixinExtras:0.1.1")
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 	

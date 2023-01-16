@@ -1,8 +1,9 @@
-package io.github.justfoxx.venturorigin.mixin.minecraft;
+package io.github.justfoxx.venturorigin.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.justfoxx.venturorigin.powers.Sounds;
+import io.github.justfoxx.venturorigin.Main;
+import io.github.justfoxx.venturorigin.RegistryTypes;
+import io.github.justfoxx.venturorigin.interfaces.IESounding;
+import io.github.justfoxx.venturorigin.powers.PowerWrapper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
@@ -28,42 +28,42 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "getDeathSound", at = @At("TAIL"), cancellable = true)
     public void deathSound(CallbackInfoReturnable<SoundEvent> cir) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                cir.setReturnValue(sounds.deathSound());
-                return;
-            }
-        }
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        if (!power.isActive(this)) return;
+        if (!(power instanceof IESounding soundingPower)) return;
+
+        cir.setReturnValue(soundingPower.deathSound());
     }
 
     @Inject(method = "getFallSounds", at = @At("TAIL"), cancellable = true)
     public void fallSound(CallbackInfoReturnable<FallSounds> cir) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                cir.setReturnValue(sounds.fallSound());
-                return;
-            }
-        }
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        if (!power.isActive(this)) return;
+        if (!(power instanceof IESounding soundingPower)) return;
+
+        cir.setReturnValue(soundingPower.fallSound());
     }
 
     @Override
     public SoundEvent getEatSound(ItemStack stack) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                return sounds.eatSound();
-            }
-        }
-        return stack.getEatSound();
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        if (!power.isActive(this)) return stack.getEatSound();
+        if (!(power instanceof IESounding soundingPower)) return stack.getEatSound();
+
+        return soundingPower.eatSound();
     }
 
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     public void hurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                cir.setReturnValue(sounds.hurtSound());
-                return;
-            }
-        }
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        if (!power.isActive(this)) return;
+        if (!(power instanceof IESounding soundingPower)) return;
+
+        cir.setReturnValue(soundingPower.hurtSound());
     }
 
     @ModifyArg(method = "eatFood", at = @At(
@@ -71,22 +71,23 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
     ))
     public SoundEvent eatSound(SoundEvent sound) {
-        if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-            for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                return sounds.eatSound();
-            }
-        }
-        return sound;
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        if (!power.isActive(this)) return sound;
+        if (!(power instanceof IESounding soundingPower)) return sound;
+
+        return soundingPower.eatSound();
     }
 
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("TAIL"))
     public void dropSound(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-        if(!stack.isEmpty()) {
-            if(PowerHolderComponent.hasPower(this, Sounds.class)) {
-                for(Sounds sounds : PowerHolderComponent.getPowers(this,Sounds.class)) {
-                    world.playSound(null,this.getX(),this.getY(),this.getZ(),sounds.dropSound(),SoundCategory.PLAYERS,1.0F,1.0F);
-                }
-            }
-        }
+        if (stack.isEmpty()) return;
+        
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        
+        if (!power.isActive(this)) return;
+        if (!(power instanceof IESounding soundingPower)) return;
+        
+        world.playSound(null,this.getX(),this.getY(),this.getZ(),soundingPower.dropSound(),SoundCategory.PLAYERS,1.0F,1.0F);
     }
 }

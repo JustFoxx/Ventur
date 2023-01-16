@@ -1,10 +1,10 @@
-package io.github.justfoxx.venturorigin.mixin.minecraft;
+package io.github.justfoxx.venturorigin.mixin;
 
 import com.mojang.authlib.GameProfile;
-import io.github.justfoxx.venturorigin.Powers;
+import io.github.justfoxx.venturorigin.Main;
+import io.github.justfoxx.venturorigin.RegistryTypes;
+import io.github.justfoxx.venturorigin.powers.PowerWrapper;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.passive.AllayEntity;
-import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.encryption.PlayerPublicKey;
@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
@@ -31,18 +30,14 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "playerTick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        if(Powers.NO_BLOCK_OFFHAND.isActive(this)) {
-            if(getOffHandStack() != ItemStack.EMPTY) {
-                dropItem(getOffHandStack(), true);
-                setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
-            }
-        }
+        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("no_block_offhand"));
+
+        if (!power.isActive(this)) return;
+        if (getOffHandStack().isEmpty()) return;
+
+        dropItem(getOffHandStack(), true);
+        setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+
     }
 
-
-
-//    @Inject(method = "wakeUp", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;wakeUp(ZZ)V"))
-//    private void onWakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo info) {
-//        EntitySleepEvents.STOP_SLEEPING.invoker().onStopSleeping((ServerPlayerEntity)(Object) this, this.getBlockPos());
-//    }
 }

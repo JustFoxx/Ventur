@@ -1,32 +1,14 @@
 package io.github.justfoxx.venturorigin;
 
-import io.github.apace100.apoli.power.Power;
-import io.github.apace100.apoli.power.PowerTypeReference;
-import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
-import io.github.justfoxx.venturorigin.powers.OverGrown;
-import io.github.justfoxx.venturorigin.powers.RidingEffect;
-import io.github.justfoxx.venturorigin.powers.SizeChange;
-import io.github.justfoxx.venturorigin.powers.Sounds;
-import net.minecraft.util.Identifier;
-
-import static io.github.justfoxx.venturorigin.Main.ID;
+import io.github.justfoxx.venturorigin.powers.*;
 
 public class Powers {
-    public static class PowerT extends PowerTypeReference<Power> {
-        public PowerT(Identifier id) {
-            super(id);
-        }
-    }
-    public static final PowerT NO_BLOCK_OFFHAND = new PowerT(ID("paws_no_block_offhand"));
-    public static final PowerT NO_MOB_ATTACK = new PowerT(ID("spirit_mobattack"));
-
-    // public static final PowerT SLEEP_ON_TREES = new PowerT(ID("green_sleeping"));
-
-    public static void register() {
-        Utils.register(Utils.createPower("size_change", data -> SizeChange::new));
-        Utils.register(Utils.createPower("sounds", data -> Sounds::new));
-        Utils.register(Utils.createPower("riding_effect", data -> RidingEffect::new));
-        Utils.register(Utils.createPower("overgrown", data -> OverGrown::new));
+    public void init() {
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("size_change"), new SizeChange(Main.g.id("smallbody_size")));
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("sounds"), new Sounds(Main.g.id("spirit_sound")));
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("riding_effect"), new RidingEffect(Main.g.id("spirit_lucky")));
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("overgrown"), new OverGrown(Main.g.id("overgrown")));
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("no_mob_attack"), new PowerWrapper(Main.g.id("spirit_mobattack")));
+        Main.registry.add(RegistryTypes.POWER, Main.g.id("no_block_offhand"), new PowerWrapper(Main.g.id("paws_no_block_offhand")));
     }
 }

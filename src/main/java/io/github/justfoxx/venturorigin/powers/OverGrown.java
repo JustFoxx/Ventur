@@ -1,68 +1,60 @@
 package io.github.justfoxx.venturorigin.powers;
 
-import io.github.apace100.apoli.action.block.BonemealAction;
-import io.github.apace100.apoli.power.PowerType;
 import io.github.justfoxx.venturorigin.Main;
+import io.github.justfoxx.venturorigin.interfaces.IETicking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
-public class OverGrown extends BasePower {
+public class OverGrown extends PowerWrapper implements IETicking {
     private final int radius = 3;
+    private int ambientChance;
+    private final int minAmbientDelay = 5;
 
-    public OverGrown(PowerType<?> type, LivingEntity entity) {
-        super(type, entity);
+    private final TagKey<Block> crops = TagKey.of(Registry.BLOCK_KEY, Identifier.of("minecraft", "crops"));
+
+    public OverGrown(Identifier identifier) {
+        super(identifier);
     }
 
     private boolean bonemeal(World world, BlockPos blockPos) {
         return BoneMealItem.useOnFertilizable(ItemStack.EMPTY, world, blockPos);
     }
 
-    private int ambientChance;
-
     private void resetSoundDelay() {
-        this.ambientChance = -this.getMinAmbientDelay();
-    }
-    private int getMinAmbientDelay() {
-        return 5;
+        this.ambientChance = -this.minAmbientDelay;
     }
 
     @Override
-    public void tick() {
-        if(isActive()) {
-            int random = new Random().nextInt(5000);
-            if (entity.isAlive() && random < this.ambientChance++) {
-                resetSoundDelay();
-                function();
-            }
+    public void tick(LivingEntity livingEntity) {
+        int random = new Random().nextInt(5000);
 
-        }
+        if (!(livingEntity.isAlive() && random < this.ambientChance++)) return;
+
+        resetSoundDelay();
+        growCrops(livingEntity);
     }
 
-    private void function() {
-        BlockPos blockPosOfEntity = entity.getBlockPos();
-        for (BlockPos blockPos : BlockPos.iterateRandomly(entity.world.getRandom(), 30, blockPosOfEntity, radius)) {
-            BlockState blockState = entity.world.getBlockState(blockPos);
-            if(blockPos.getY() != blockPosOfEntity.getY()) {
-                continue;
-            }
-            if (blockState.isAir()) {
-                continue;
-            }
-            if (bonemeal(entity.world, blockPos)) {
-                break;
-            }
+    private void growCrops(LivingEntity livingEntity) {
+        BlockPos blockPosOfEntity = livingEntity.getBlockPos();
+        for (BlockPos blockPos : BlockPos.iterateRandomly(livingEntity.world.getRandom(), 30, blockPosOfEntity, radius)) {
+            BlockState blockState = livingEntity.world.getBlockState(blockPos);
+
+            if (blockPos.getY() != blockPosOfEntity.getY())continue;
+            if (blockState.isAir()) continue;
+            if (!blockState.isIn(crops)) continue;
+            if (!bonemeal(livingEntity.world, blockPos)) continue;
+
+            return;
         }
     }
 }
