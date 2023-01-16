@@ -20,7 +20,7 @@ public class OverGrown extends PowerWrapper implements IETicking {
     private int ambientChance;
     private final int minAmbientDelay = 5;
 
-    private final TagKey<Block> crops = TagKey.of(Registry.BLOCK_KEY, Identifier.of("minecraft", "crops"));
+    private final TagKey<Block> crops = TagKey.of(Registry.BLOCK_KEY, new Identifier("minecraft", "crops"));
 
     public OverGrown(Identifier identifier) {
         super(identifier);

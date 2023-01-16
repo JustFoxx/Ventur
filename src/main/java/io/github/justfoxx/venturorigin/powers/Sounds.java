@@ -20,7 +20,7 @@ public class Sounds extends PowerWrapper implements IESounding, IETicking {
 
     @Override
     public SoundEvent deathSound() {
-        return SoundEvents.ENTITY_ALLAY_DEATH;
+        return SoundEvents.ENTITY_FOX_DEATH;
     }
 
     @Override
