@@ -40,7 +40,6 @@ public class LivingEntityMixin {
     public void onTickSizeChange(CallbackInfo ci) {
         PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("size_change"));
 
-        if (!power.isActive((LivingEntity) (Object)this)) return;
         if (!(power instanceof IETicking tickingPower)) return;
 
         tickingPower.tick((LivingEntity) (Object)this);
