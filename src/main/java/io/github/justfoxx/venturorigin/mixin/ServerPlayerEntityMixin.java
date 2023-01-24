@@ -2,8 +2,8 @@ package io.github.justfoxx.venturorigin.mixin;
 
 import com.mojang.authlib.GameProfile;
 import io.github.justfoxx.venturorigin.Main;
-import io.github.justfoxx.venturorigin.RegistryTypes;
-import io.github.justfoxx.venturorigin.powers.PowerWrapper;
+import io.github.justfoxx.venturorigin.interfaces.IEPowerWrapper;
+import io.github.justfoxx.venturorigin.registry.RegistryTypes;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -30,7 +30,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "playerTick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("no_block_offhand"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("no_block_offhand"));
 
         if (!power.isActive(this)) return;
         if (getOffHandStack().isEmpty()) return;

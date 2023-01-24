@@ -1,9 +1,10 @@
 package io.github.justfoxx.venturorigin.mixin;
 
 import io.github.justfoxx.venturorigin.Main;
-import io.github.justfoxx.venturorigin.RegistryTypes;
+import io.github.justfoxx.venturorigin.interfaces.IEPowerWrapper;
+import io.github.justfoxx.venturorigin.registry.RegistryTypes;
 import io.github.justfoxx.venturorigin.interfaces.IESounding;
-import io.github.justfoxx.venturorigin.powers.PowerWrapper;
+import io.github.justfoxx.venturorigin.powers.PowerWrapperImpl;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +29,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "getDeathSound", at = @At("TAIL"), cancellable = true)
     public void deathSound(CallbackInfoReturnable<SoundEvent> cir) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
 
         if (!power.isActive(this)) return;
         if (!(power instanceof IESounding soundingPower)) return;
@@ -38,7 +39,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "getFallSounds", at = @At("TAIL"), cancellable = true)
     public void fallSound(CallbackInfoReturnable<FallSounds> cir) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
 
         if (!power.isActive(this)) return;
         if (!(power instanceof IESounding soundingPower)) return;
@@ -48,7 +49,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Override
     public SoundEvent getEatSound(ItemStack stack) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
 
         if (!power.isActive(this)) return stack.getEatSound();
         if (!(power instanceof IESounding soundingPower)) return stack.getEatSound();
@@ -58,7 +59,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     public void hurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
 
         if (!power.isActive(this)) return;
         if (!(power instanceof IESounding soundingPower)) return;
@@ -71,7 +72,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
     ))
     public SoundEvent eatSound(SoundEvent sound) {
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
 
         if (!power.isActive(this)) return sound;
         if (!(power instanceof IESounding soundingPower)) return sound;
@@ -82,8 +83,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("TAIL"))
     public void dropSound(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if (stack.isEmpty()) return;
-        
-        PowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
+
+        IEPowerWrapper power = Main.registry.get(RegistryTypes.POWER, Main.g.id("sounds"));
         
         if (!power.isActive(this)) return;
         if (!(power instanceof IESounding soundingPower)) return;

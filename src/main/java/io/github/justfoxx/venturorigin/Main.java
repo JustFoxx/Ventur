@@ -3,6 +3,7 @@ package io.github.justfoxx.venturorigin;
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import io.github.ivymc.ivycore.Global;
 import io.github.ivymc.ivycore.registry.RegistryBuilder;
+import io.github.justfoxx.venturorigin.registry.Powers;
 import net.fabricmc.api.ModInitializer;
 
 public class Main implements ModInitializer {

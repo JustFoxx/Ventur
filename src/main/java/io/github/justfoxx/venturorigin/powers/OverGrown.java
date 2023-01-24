@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class OverGrown extends PowerWrapper implements IETicking {
+public class OverGrown extends PowerWrapperImpl implements IETicking {
     private final int radius = 3;
     private int ambientChance;
     private final int minAmbientDelay = 5;

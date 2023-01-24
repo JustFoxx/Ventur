@@ -7,6 +7,8 @@
     "ActiveTargetGoalMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
+    "PowerHolderComponentImplMixin",
+    "PowerMixin",
     "ServerPlayerEntityMixin"
   ],
   "injectors": {

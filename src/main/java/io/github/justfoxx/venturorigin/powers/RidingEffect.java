@@ -10,7 +10,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class RidingEffect extends PowerWrapper implements IETicking, IEDamaging {
+public class RidingEffect extends PowerWrapperImpl implements IETicking, IEDamaging {
 
     public RidingEffect(Identifier identifier) {
         super(identifier);

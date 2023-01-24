@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.Random;
 
-public class Sounds extends PowerWrapper implements IESounding, IETicking {
+public class Sounds extends PowerWrapperImpl implements IESounding, IETicking {
     private int ambientSoundChance;
     private final int minAmbientSoundDelay = 60;
 
