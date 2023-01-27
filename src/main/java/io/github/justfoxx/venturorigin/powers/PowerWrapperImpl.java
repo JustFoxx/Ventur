@@ -18,12 +18,10 @@ public class PowerWrapperImpl implements IEPowerWrapper {
         this.powerTypeReference = new PowerTypeReference<>(this.id);
     }
 
-    @Override
     public boolean isActive(LivingEntity livingEntity) {
         return powerTypeReference.isActive(livingEntity);
     }
 
-    @Override
     public PowerHolderComponent getPowerHolder(LivingEntity entity) {
         if (powerHolderComponent == null) {
             powerHolderComponent = PowerHolderComponent.KEY.get(entity);
@@ -31,7 +29,6 @@ public class PowerWrapperImpl implements IEPowerWrapper {
         return powerHolderComponent;
     }
 
-    @Override
     public Power getPower(LivingEntity entity) {
         if (this.powerType == null) {
             this.powerType = PowerTypeRegistry.get(id);
@@ -39,6 +36,9 @@ public class PowerWrapperImpl implements IEPowerWrapper {
         return getPowerHolder(entity).getPower(this.powerType);
     }
 
+//    public void modifyResource(VariableIntPower power, int value, MathEnum mathEnum, LivingEntity livingEntity) {
+
+//    }
 
     public Identifier getId() {
         return id;
