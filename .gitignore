@@ -32,3 +32,10 @@ bin/
 
 run/
 mods/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+run
+build
+gradlew
+gradlew.bat
