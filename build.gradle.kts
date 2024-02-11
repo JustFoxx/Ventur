@@ -7,6 +7,14 @@ plugins {
 
 repositories {
     maven("https://jitpack.io")
+    maven("https://api.modrinth.com/maven")
+    maven("https://maven.ladysnake.org/releases")
+    maven("https://maven.cafeteria.dev")
+    maven("https://maven.jamieswhiteshirt.com/libs-release")
+    maven("https://masa.dy.fi/maven")
+    maven("https://maven.shedaniel.me")
+    maven("https://maven.terraformersmc.com")
+    maven("https://maven.quiltmc.org/repository/release")
 }
 
 dependencies {
@@ -14,10 +22,14 @@ dependencies {
     mappings(libs.bundles.yarn)
     modImplementation(libs.bundles.fabric)
     implementation(libs.bundles.vineflower)
-}
-
-loom {
-    serverOnlyMinecraftJar()
+    modImplementation(libs.bundles.origins) {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
+    implementation(libs.bundles.night)
+    include(libs.bundles.night)
+    modImplementation(libs.bundles.pehkui) {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
 }
 
 java {

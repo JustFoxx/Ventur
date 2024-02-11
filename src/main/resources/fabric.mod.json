@@ -1,0 +1,24 @@
+{
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${version}",
+    "name": "Ventur Origin",
+    "description": "A cute green-furred addon for origins mod",
+    "authors": ["kittech"],
+    "license": "LGPL-3.0",
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "minecraft": "~${minecraft_version}",
+        "java": ">=${java_version}",
+        "pehkui": "*"
+    },
+    "contact": {
+        "website": "https://github.com/justfoxx/ventur",
+        "issues": "https://github.com/justfoxx/ventur/issues",
+        "sources": "https://github.com/justfoxx/ventur"
+    },
+    "entrypoints": {
+        "main": ["io.github.justfoxx.ventur.Main"]
+    },
+    "mixins": ["ventur.mixins.json"]
+}

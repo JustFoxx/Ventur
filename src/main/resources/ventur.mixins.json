@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "package": "io.github.justfoxx.ventur.mixins",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "LivingEntityMixin",
+        "OriginLayerAccessor",
+        "PowerAccessor"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
