@@ -5,7 +5,8 @@
     "mixins": [
         "LivingEntityMixin",
         "OriginLayerAccessor",
-        "PowerAccessor"
+        "PowerAccessor",
+        "PowerHolderComponentImplMixin"
     ],
     "injectors": {
         "defaultRequire": 1
